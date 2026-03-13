@@ -2,13 +2,13 @@
 
 ## Project Context
 
-Agent Orchestrator is a TypeScript monorepo for managing parallel AI coding agents. It uses pnpm workspaces with packages under `packages/`.
+Agent Orchestrator is a TypeScript monorepo for managing parallel AI coding agents. It uses bun workspaces with packages under `packages/`.
 
 ## Tech Stack
 
 - TypeScript (strict mode, ESM with `.js` extensions in imports)
 - Node.js 20+ (use `node:` prefix for built-in modules)
-- pnpm workspaces
+- bun workspaces
 - Next.js 15 (App Router) for web dashboard
 - Commander.js for CLI
 - vitest for testing

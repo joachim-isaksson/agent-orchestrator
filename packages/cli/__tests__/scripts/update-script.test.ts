@@ -40,8 +40,8 @@ esac\nexit 0`,
     );
     createFakeBinary(
       binDir,
-      "pnpm",
-      `printf 'pnpm %s\\n' "$*" >> ${JSON.stringify(commandLog)}\nif [ "$1" = "--version" ]; then\n  printf '9.15.4\\n'\nfi\nexit 0`,
+      "bun",
+      `printf 'bun %s\\n' "$*" >> ${JSON.stringify(commandLog)}\nif [ "$1" = "--version" ]; then\n  printf '1.2.4\\n'\nfi\nexit 0`,
     );
     createFakeBinary(
       binDir,
@@ -69,9 +69,9 @@ esac\nexit 0`,
     expect(result.status).toBe(0);
     expect(commands).toContain("git fetch origin main");
     expect(commands).toContain("git pull --ff-only origin main");
-    expect(commands).toContain("pnpm install");
-    expect(commands).toContain("pnpm --filter @composio/ao-core clean");
-    expect(commands).toContain("pnpm --filter @composio/ao-cli build");
+    expect(commands).toContain("bun install");
+    expect(commands).toContain("bun run --filter @composio/ao-core clean");
+    expect(commands).toContain("bun run --filter @composio/ao-cli build");
     expect(commands).toContain("npm link");
   });
 
@@ -139,8 +139,8 @@ exit 0`,
     );
     createFakeBinary(
       binDir,
-      "pnpm",
-      'if [ "$1" = "--version" ]; then printf "9.15.4\\n"; fi\nexit 0',
+      "bun",
+      'if [ "$1" = "--version" ]; then printf "1.2.4\\n"; fi\nexit 0',
     );
     createFakeBinary(binDir, "npm", "exit 0");
     createFakeBinary(
@@ -189,7 +189,7 @@ exit 0`,
   "rev-parse --is-inside-work-tree") printf "true\\n" ;;
   "status --porcelain")
     if [ -f ${JSON.stringify(join(tempRoot, "post-dirty"))} ]; then
-      printf " M pnpm-lock.yaml\\n"
+      printf " M bun.lock\\n"
     fi
     ;;
   "branch --show-current") printf "main\\n" ;;
@@ -199,8 +199,8 @@ exit 0`,
     );
     createFakeBinary(
       binDir,
-      "pnpm",
-      'if [ "$1" = "--version" ]; then printf "9.15.4\\n"; fi\nexit 0',
+      "bun",
+      'if [ "$1" = "--version" ]; then printf "1.2.4\\n"; fi\nexit 0',
     );
     createFakeBinary(binDir, "npm", "exit 0");
     createFakeBinary(

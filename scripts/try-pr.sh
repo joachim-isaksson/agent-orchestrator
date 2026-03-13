@@ -55,7 +55,7 @@ cd "$WORKTREE"
 # ── build CLI/core/plugins ─────────────────────────────────────────────────────
 echo -e "\n${BOLD}Building $SESSION${RESET} (branch: ${CYAN}$BRANCH${RESET})\n"
 
-pnpm --filter @composio/ao-core \
+bun run --filter @composio/ao-core \
      --filter @composio/ao-cli \
      --filter '@composio/ao-plugin-*' \
      build
@@ -63,11 +63,11 @@ pnpm --filter @composio/ao-core \
 # ── build web if requested ─────────────────────────────────────────────────────
 if [ "$WITH_WEB" = true ]; then
   echo -e "\n${BOLD}Building dashboard...${RESET}\n"
-  pnpm --filter @composio/ao-web build
+  bun run --filter @composio/ao-web build
 fi
 
 # ── link ao ───────────────────────────────────────────────────────────────────
-# Directly update the pnpm shim to point at the worktree's dist/index.js
+# Directly update the shim to point at the worktree's dist/index.js
 AO_SHIM=$(which ao)
 AO_TARGET="$WORKTREE/packages/cli/dist/index.js"
 
@@ -106,7 +106,7 @@ if [ "$WITH_WEB" = true ]; then
   echo ""
   echo -e "  ${BOLD}Starting dashboard on port $PORT...${RESET}"
   echo -e "  ${CYAN}http://localhost:$PORT${RESET}  (Ctrl+C to stop)\n"
-  cd packages/web && AO_CONFIG_PATH="$REAL_CONFIG" PORT=$PORT pnpm dev
+  cd packages/web && AO_CONFIG_PATH="$REAL_CONFIG" PORT=$PORT bun run dev
 else
   # Hint if this PR has web changes but --with-web wasn't passed
   if git -C "$WORKTREE" diff --name-only "origin/main...HEAD" 2>/dev/null | grep -q "packages/web/"; then

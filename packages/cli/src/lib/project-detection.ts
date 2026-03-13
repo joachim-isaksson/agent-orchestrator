@@ -67,7 +67,12 @@ export function detectProjectType(dir: string): ProjectType {
     }
 
     // Detect package manager
-    if (hasFile("pnpm-lock.yaml") || hasFile("pnpm-workspace.yaml")) {
+    if (hasFile("bun.lock") || hasFile("bun.lockb")) {
+      type.packageManager = "bun";
+      if (pkg?.workspaces) {
+        type.tools.push("bun-workspaces");
+      }
+    } else if (hasFile("pnpm-lock.yaml") || hasFile("pnpm-workspace.yaml")) {
       type.packageManager = "pnpm";
       if (hasFile("pnpm-workspace.yaml")) {
         type.tools.push("pnpm-workspaces");
@@ -179,7 +184,7 @@ function generateTestCommands(projectType: ProjectType): string {
 
     commands.push(`Before pushing, run these commands:`);
 
-    if (projectType.tools.includes("pnpm-workspaces")) {
+    if (projectType.tools.includes("pnpm-workspaces") || projectType.tools.includes("bun-workspaces")) {
       commands.push(`- ${pm} build (build all packages)`);
       commands.push(`- ${pm} typecheck (type check all packages)`);
       commands.push(`- ${pm} lint (or ${pm} lint:fix to auto-fix)`);

@@ -34,11 +34,11 @@ async function checkPort(port: number): Promise<void> {
 async function checkBuilt(webDir: string): Promise<void> {
   const nodeModules = resolve(webDir, "node_modules", "@composio", "ao-core");
   if (!existsSync(nodeModules)) {
-    throw new Error("Dependencies not installed. Run: pnpm install && pnpm build");
+    throw new Error("Dependencies not installed. Run: bun install && bun run build");
   }
   const coreEntry = resolve(nodeModules, "dist", "index.js");
   if (!existsSync(coreEntry)) {
-    throw new Error("Packages not built. Run: pnpm build");
+    throw new Error("Packages not built. Run: bun run build");
   }
 }
 

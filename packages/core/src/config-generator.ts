@@ -141,12 +141,12 @@ export function detectProjectInfo(repoDir: string): DetectedProjectInfo {
   const hasFile = (name: string) => existsSync(join(repoDir, name));
 
   if (hasFile("package.json")) {
-    const pm = hasFile("pnpm-lock.yaml")
-      ? "pnpm"
-      : hasFile("yarn.lock")
-        ? "yarn"
-        : hasFile("bun.lockb") || hasFile("bun.lock")
-          ? "bun"
+    const pm = hasFile("bun.lock") || hasFile("bun.lockb")
+      ? "bun"
+      : hasFile("pnpm-lock.yaml")
+        ? "pnpm"
+        : hasFile("yarn.lock")
+          ? "yarn"
           : "npm";
     const lang =
       hasFile("tsconfig.json") || hasFile("tsconfig.base.json") ? "typescript" : "javascript";

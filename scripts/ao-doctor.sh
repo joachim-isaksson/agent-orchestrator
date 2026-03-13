@@ -180,13 +180,13 @@ check_git() {
   pass "git version ${version} supports worktrees"
 }
 
-check_pnpm() {
-  if ! check_command "pnpm" "required" "enable corepack or run npm install -g pnpm"; then
+check_bun() {
+  if ! check_command "bun" "required" "install bun: https://bun.sh/docs/installation"; then
     return
   fi
   local version
-  version="$(pnpm --version 2>/dev/null || true)"
-  pass "pnpm version ${version:-unknown} is available"
+  version="$(bun --version 2>/dev/null || true)"
+  pass "bun version ${version:-unknown} is available"
 }
 
 check_launcher() {
@@ -237,19 +237,19 @@ check_install_layout() {
   if [ -d "$REPO_ROOT/node_modules" ]; then
     pass "dependencies are installed at $REPO_ROOT/node_modules"
   else
-    fail "dependencies are missing at $REPO_ROOT/node_modules. Fix: run pnpm install"
+    fail "dependencies are missing at $REPO_ROOT/node_modules. Fix: run bun install"
   fi
 
   if [ -f "$REPO_ROOT/packages/core/dist/index.js" ]; then
     pass "core package is built"
   else
-    fail "core package is not built. Fix: run pnpm --filter @composio/ao-core build"
+    fail "core package is not built. Fix: run bun run --filter @composio/ao-core build"
   fi
 
   if [ -f "$REPO_ROOT/packages/cli/dist/index.js" ]; then
     pass "CLI package is built"
   else
-    fail "CLI package is not built. Fix: run pnpm --filter @composio/ao-cli build"
+    fail "CLI package is not built. Fix: run bun run --filter @composio/ao-cli build"
   fi
 }
 
@@ -262,7 +262,7 @@ check_runtime_sanity() {
   if node "$REPO_ROOT/packages/agent-orchestrator/bin/ao.js" --version >/dev/null 2>&1; then
     pass "launcher runtime sanity check passed (ao --version)"
   else
-    fail "launcher runtime sanity check failed. Fix: run pnpm build and refresh the launcher"
+    fail "launcher runtime sanity check failed. Fix: run bun run build and refresh the launcher"
   fi
 }
 
@@ -323,7 +323,7 @@ printf 'Agent Orchestrator Doctor\n\n'
 
 check_node
 check_git
-check_pnpm
+check_bun
 check_launcher
 check_tmux
 check_gh

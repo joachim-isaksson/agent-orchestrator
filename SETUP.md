@@ -66,11 +66,11 @@ The package is not yet published to npm. Install by building from source:
 git clone https://github.com/ComposioHQ/agent-orchestrator
 cd agent-orchestrator
 
-# Install dependencies (requires pnpm)
-pnpm install
+# Install dependencies (requires bun)
+bun install
 
 # Build all packages
-pnpm build
+bun run build
 
 # Link CLI globally
 npm link -g packages/cli
@@ -81,10 +81,10 @@ ao --version
 
 > **Coming soon:** `npm install -g @composio/ao-cli` once published to npm.
 
-**If you don't have pnpm:**
+**If you don't have bun:**
 
 ```bash
-npm install -g pnpm
+curl -fsSL https://bun.sh/install | bash
 ```
 
 ## First-Time Configuration

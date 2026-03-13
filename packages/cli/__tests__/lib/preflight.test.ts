@@ -53,22 +53,22 @@ describe("preflight.checkBuilt", () => {
     expect(mockExistsSync).toHaveBeenCalled();
   });
 
-  it("throws 'pnpm install' when node_modules is missing", async () => {
+  it("throws 'bun install' when node_modules is missing", async () => {
     // First call checks node_modules/@composio/ao-core — missing
     mockExistsSync.mockReturnValue(false);
     await expect(preflight.checkBuilt("/web")).rejects.toThrow(
-      "pnpm install",
+      "bun install",
     );
   });
 
-  it("throws 'pnpm build' when node_modules exists but dist is missing", async () => {
+  it("throws 'bun run build' when node_modules exists but dist is missing", async () => {
     // First call: node_modules/@composio/ao-core exists
     // Second call: dist/index.js does not exist
     mockExistsSync
       .mockReturnValueOnce(true)
       .mockReturnValueOnce(false);
     await expect(preflight.checkBuilt("/web")).rejects.toThrow(
-      "Packages not built. Run: pnpm build",
+      "Packages not built. Run: bun run build",
     );
   });
 });

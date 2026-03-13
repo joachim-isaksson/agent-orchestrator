@@ -19,12 +19,15 @@ describe("Dashboard globalPause banner", () => {
   });
 
   beforeEach(() => {
-    eventSourceMock = {
-      onmessage: null,
-      onerror: null,
-      close: vi.fn(),
-    };
-    global.EventSource = vi.fn(() => eventSourceMock as unknown as EventSource);
+    class MockEventSource {
+      onmessage: ((event: MessageEvent) => void) | null = null;
+      onerror: (() => void) | null = null;
+      close = vi.fn();
+      constructor() {
+        eventSourceMock = this; // eslint-disable-line @typescript-eslint/no-this-alias
+      }
+    }
+    global.EventSource = MockEventSource as unknown as typeof EventSource;
     global.fetch = vi.fn();
   });
 

@@ -59,7 +59,7 @@ export async function waitForPortFree(port: number, timeoutMs: number): Promise<
 
 /**
  * Clean just the .next cache directory. Use when a dev server is running —
- * it will recompile on next request. Does NOT run pnpm build (which would
+ * it will recompile on next request. Does NOT run a full build (which would
  * create a production .next that the dev server can't use).
  */
 export async function cleanNextCache(webDir: string): Promise<void> {

@@ -166,7 +166,7 @@ ao doctor --fix
 ao update
 ```
 
-`ao doctor` checks PATH and launcher resolution, required binaries, tmux and GitHub CLI health, config support directories, stale AO temp files, and core build/runtime sanity. `ao update` fast-forwards the local install repo on `main`, runs `pnpm install`, clean-rebuilds `@composio/ao-core`, `@composio/ao-cli`, and `@composio/ao-web`, refreshes the global `ao` launcher with `npm link`, and finishes with CLI smoke tests.
+`ao doctor` checks PATH and launcher resolution, required binaries, tmux and GitHub CLI health, config support directories, stale AO temp files, and core build/runtime sanity. `ao update` fast-forwards the local install repo on `main`, runs `bun install`, clean-rebuilds `@composio/ao-core`, `@composio/ao-cli`, and `@composio/ao-web`, refreshes the global `ao` launcher with `npm link`, and finishes with CLI smoke tests.
 
 ## Why Agent Orchestrator?
 
@@ -186,9 +186,9 @@ Running one AI agent in a terminal is easy. Running 30 across different issues, 
 ## Development
 
 ```bash
-pnpm install && pnpm build    # Install and build all packages
-pnpm test                      # Run tests (3,288 test cases)
-pnpm dev                       # Start web dashboard dev server
+bun install && bun run build    # Install and build all packages
+bun run test                      # Run tests (3,288 test cases)
+bun run dev                       # Start web dashboard dev server
 ```
 
 See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) for code conventions and architecture details.

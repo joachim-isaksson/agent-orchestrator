@@ -56,8 +56,8 @@ function createHealthyPath(binDir: string): void {
   );
   createFakeBinary(
     binDir,
-    "pnpm",
-    'if [ "$1" = "--version" ]; then\n  printf "9.15.4\\n"\n  exit 0\nfi\nexit 0',
+    "bun",
+    'if [ "$1" = "--version" ]; then\n  printf "1.2.4\\n"\n  exit 0\nfi\nexit 0',
   );
   createFakeBinary(
     binDir,

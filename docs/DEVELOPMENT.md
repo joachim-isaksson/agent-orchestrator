@@ -76,13 +76,13 @@ Activity states (orthogonal to lifecycle): `active`, `ready`, `idle`, `waiting_i
 
 ## Getting Started
 
-**Prerequisites**: Node.js 20+, pnpm 9.15+, Git 2.25+
+**Prerequisites**: Node.js 20+, bun 1.0+, Git 2.25+
 
 ```bash
 git clone https://github.com/ComposioHQ/agent-orchestrator.git
 cd agent-orchestrator
-pnpm install
-pnpm build
+bun install
+bun run build
 cp agent-orchestrator.yaml.example agent-orchestrator.yaml
 $EDITOR agent-orchestrator.yaml
 ```
@@ -92,8 +92,8 @@ $EDITOR agent-orchestrator.yaml
 **Always build before starting the web dev server** — it depends on built packages:
 
 ```bash
-pnpm build
-cd packages/web && pnpm dev
+bun run build
+cd packages/web && bun run dev
 # Open http://localhost:3000
 ```
 
@@ -133,7 +133,7 @@ agent-orchestrator/
 3. **Build and test**
 
    ```bash
-   pnpm build && pnpm test && pnpm lint && pnpm typecheck
+   bun run build && bun run test && bun run lint && bun run typecheck
    ```
 
 4. **Commit** using [Conventional Commits](https://www.conventionalcommits.org/)
@@ -158,7 +158,7 @@ git status --short --branch   # `ao update` expects a clean working tree on main
 ao update
 ```
 
-`ao update` is intentionally conservative: it fast-forwards the local install checkout from `origin/main`, runs `pnpm install`, clean-rebuilds `@composio/ao-core`, `@composio/ao-cli`, and `@composio/ao-web`, refreshes the global launcher with `npm link`, and ends with CLI smoke tests. Use `ao update --skip-smoke` to stop after the rebuild, or `ao update --smoke-only` to rerun the smoke checks without fetching or rebuilding.
+`ao update` is intentionally conservative: it fast-forwards the local install checkout from `origin/main`, runs `bun install`, clean-rebuilds `@composio/ao-core`, `@composio/ao-cli`, and `@composio/ao-web`, refreshes the global launcher with `npm link`, and ends with CLI smoke tests. Use `ao update --skip-smoke` to stop after the rebuild, or `ao update --smoke-only` to rerun the smoke checks without fetching or rebuilding.
 
 If your branch has drift from `main`, update the install checkout first and then return to your feature worktree. That keeps CLI behavior and generated docs aligned with the version contributors are expected to run.
 
@@ -315,16 +315,16 @@ Orchestrator sessions use a separate prompt from `packages/core/src/orchestrator
 
 ```bash
 # Run all tests
-pnpm test
+bun run test
 
 # Run tests for a specific package
-pnpm --filter @composio/ao-core test
+bun run --filter @composio/ao-core test
 
 # Watch mode
-pnpm --filter @composio/ao-core test -- --watch
+bun run --filter @composio/ao-core test -- --watch
 
 # Integration tests
-pnpm test:integration
+bun run test:integration
 ```
 
 Key test files in core (`src/__tests__/`):
@@ -344,7 +344,7 @@ Use mock plugins in tests — don't call real tmux or external services in unit 
 
 1. Edit `Session` interface in `packages/core/src/types.ts`
 2. Initialize the field in `spawn()` in `session-manager.ts`
-3. Rebuild: `pnpm --filter @composio/ao-core build`
+3. Rebuild: `bun run --filter @composio/ao-core build`
 
 ### Add a new reaction
 
@@ -392,14 +392,14 @@ git worktree add ../ao-feature-x feat/feature-x
 cd ../ao-feature-x
 
 # Install and build in the worktree
-pnpm install
-pnpm build
+bun install
+bun run build
 
 # Copy config
 cp ../agent-orchestrator/agent-orchestrator.yaml .
 
 # Start dev server
-cd packages/web && pnpm dev
+cd packages/web && bun run dev
 ```
 
 ---
