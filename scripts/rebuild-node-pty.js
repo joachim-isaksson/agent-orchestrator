@@ -1,18 +1,21 @@
 #!/usr/bin/env node
-// Automatically rebuild node-pty from source after pnpm install
+// Automatically rebuild node-pty from source after install
 // This fixes DirectTerminal "posix_spawnp failed" errors from incompatible prebuilt binaries
 
 import { execSync } from "node:child_process";
 import { existsSync } from "node:fs";
-import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { dirname } from "node:path";
+import { createRequire } from "node:module";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const repoRoot = join(__dirname, "..");
-
-// Find node-pty in pnpm node_modules
-const nodePtyPath = join(repoRoot, "node_modules/.pnpm/node-pty@1.1.0/node_modules/node-pty");
+// Use createRequire to find node-pty regardless of package manager layout
+let nodePtyPath;
+try {
+  const require = createRequire(import.meta.url);
+  nodePtyPath = dirname(require.resolve("node-pty/package.json"));
+} catch {
+  console.log("ℹ️  node-pty not found, skipping rebuild");
+  process.exit(0);
+}
 
 if (!existsSync(nodePtyPath)) {
   console.log("ℹ️  node-pty not found, skipping rebuild");
@@ -31,7 +34,7 @@ try {
   console.warn("⚠️  node-pty rebuild failed (non-critical)");
   console.warn("   DirectTerminal may not work correctly");
   console.warn(
-    "   Run manually: cd node_modules/.pnpm/node-pty@1.1.0/node_modules/node-pty && npx node-gyp rebuild",
+    `   Run manually: cd ${nodePtyPath} && npx node-gyp rebuild`,
   );
   // Don't fail the install - node-pty rebuild failure is non-critical
   process.exit(0);

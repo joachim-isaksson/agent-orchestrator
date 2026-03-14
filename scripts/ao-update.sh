@@ -91,7 +91,7 @@ cd "$REPO_ROOT"
 
 if [ "$SMOKE_ONLY" = false ]; then
   require_command git "install git 2.25+"
-  require_command pnpm "enable corepack or run npm install -g pnpm"
+  require_command bun "install bun from https://bun.sh"
   require_command npm "install npm with Node.js"
 
   if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
@@ -104,15 +104,15 @@ if [ "$SMOKE_ONLY" = false ]; then
 
   run_cmd git fetch origin "$TARGET_BRANCH"
   run_cmd git pull --ff-only origin "$TARGET_BRANCH"
-  run_cmd pnpm install
+  run_cmd bun install
 
-  run_cmd pnpm --filter @composio/ao-core clean
-  run_cmd pnpm --filter @composio/ao-cli clean
-  run_cmd pnpm --filter @composio/ao-web clean
+  run_cmd bun run --filter @composio/ao-core clean
+  run_cmd bun run --filter @composio/ao-cli clean
+  run_cmd bun run --filter @composio/ao-web clean
 
-  run_cmd pnpm --filter @composio/ao-core build
-  run_cmd pnpm --filter @composio/ao-cli build
-  run_cmd pnpm --filter @composio/ao-web build
+  run_cmd bun run --filter @composio/ao-core build
+  run_cmd bun run --filter @composio/ao-cli build
+  run_cmd bun run --filter @composio/ao-web build
 
   printf '\nRefreshing ao launcher...\n'
   (

@@ -50,21 +50,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
+      - uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Run npm audit
-        run: pnpm audit --audit-level=moderate
+        run: npm audit --audit-level=moderate
         continue-on-error: true # Don't fail build on vulnerabilities in deps
 
-      - name: Run pnpm audit (strict)
-        run: pnpm audit --prod --audit-level=high
+      - name: Run npm audit (strict)
+        run: npm audit --omit=dev --audit-level=high

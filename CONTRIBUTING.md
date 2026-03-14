@@ -27,24 +27,24 @@ Include:
 
 ## Development Setup
 
-**Prerequisites**: Node.js 20+, pnpm 9.15+, Git 2.25+, tmux, gh CLI
+**Prerequisites**: Node.js 20+, bun, Git 2.25+, tmux, gh CLI
 
 ```bash
 git clone https://github.com/ComposioHQ/agent-orchestrator.git
 cd agent-orchestrator
-pnpm install
-pnpm build
+bun install
+bun run build
 ```
 
-Build order matters — `@composio/ao-core` must be built before the CLI, web, or plugins can run. `pnpm build` at the root handles this automatically.
+Build order matters — `@composio/ao-core` must be built before the CLI, web, or plugins can run. `bun run build` at the root handles this automatically.
 
 ### Running tests
 
 ```bash
-pnpm test                                         # all packages
-pnpm --filter @composio/ao-core test              # core only
-pnpm --filter @composio/ao-core test -- --watch   # watch mode
-pnpm test:integration                             # integration tests
+bun run test                                         # all packages
+bun run --filter @composio/ao-core test              # core only
+bun run --filter @composio/ao-core test -- --watch   # watch mode
+bun run test:integration                             # integration tests
 ```
 
 ### Running the dashboard locally
@@ -52,7 +52,7 @@ pnpm test:integration                             # integration tests
 ```bash
 cp agent-orchestrator.yaml.example agent-orchestrator.yaml
 # edit agent-orchestrator.yaml for your setup
-pnpm --filter @composio/ao-web dev
+bun run --filter @composio/ao-web dev
 ```
 
 ### Refreshing a local AO install
@@ -65,7 +65,7 @@ git status --short --branch   # confirm the install repo is clean
 ao update
 ```
 
-`ao update` fast-forwards the local install repo, reinstalls dependencies, clean-rebuilds `@composio/ao-core`, `@composio/ao-cli`, and `@composio/ao-web`, refreshes the global launcher with `npm link`, and finishes with CLI smoke tests. Use `ao update --skip-smoke` when you only need the rebuild step, or `ao update --smoke-only` when validating an existing install.
+`ao update` fast-forwards the local install repo, runs `bun install`, clean-rebuilds `@composio/ao-core`, `@composio/ao-cli`, and `@composio/ao-web`, refreshes the global launcher with `npm link`, and finishes with CLI smoke tests. Use `ao update --skip-smoke` when you only need the rebuild step, or `ao update --smoke-only` when validating an existing install.
 
 ---
 
@@ -178,8 +178,8 @@ describe("myplugin runtime", () => {
 ### 6. Build and test
 
 ```bash
-pnpm --filter @composio/ao-runtime-myplugin build
-pnpm --filter @composio/ao-runtime-myplugin test
+bun run --filter @composio/ao-runtime-myplugin build
+bun run --filter @composio/ao-runtime-myplugin test
 ```
 
 ---
@@ -222,10 +222,10 @@ See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) for the full reference. The short
 3. **Build, test, lint**:
 
    ```bash
-   pnpm build
-   pnpm test
-   pnpm lint
-   pnpm typecheck
+   bun run build
+   bun run test
+   bun run lint
+   bun run typecheck
    ```
 
 4. **Commit** with [Conventional Commits](https://www.conventionalcommits.org/):
@@ -255,9 +255,9 @@ See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) for the full reference. The short
 
 All PRs must pass:
 
-- `pnpm build` — no TypeScript errors
-- `pnpm test` — all tests green
-- `pnpm lint` — no lint errors
+- `bun run build` — no TypeScript errors
+- `bun run test` — all tests green
+- `bun run lint` — no lint errors
 - Secret scanning — no leaked credentials
 
 ---
