@@ -10,14 +10,17 @@ vi.mock("next/navigation", () => ({
 
 describe("Dashboard project overview cards", () => {
   beforeEach(() => {
-    global.EventSource = vi.fn(
-      () =>
-        ({
-          onmessage: null,
-          onerror: null,
-          close: vi.fn(),
-        }) as unknown as EventSource,
-    );
+    class MockEventSource {
+      static CONNECTING = 0;
+      static OPEN = 1;
+      static CLOSED = 2;
+      onmessage: ((event: MessageEvent) => void) | null = null;
+      onerror: (() => void) | null = null;
+      close = vi.fn();
+      url: string = "";
+      constructor(url: string) { this.url = url; }
+    }
+    global.EventSource = MockEventSource as unknown as typeof EventSource;
     global.fetch = vi.fn();
   });
 

@@ -105,26 +105,21 @@ fi
 
 echo ""
 
-# ─── Install pnpm ────────────────────────────────────────────────────────────
+# ─── Check bun ──────────────────────────────────────────────────────────────
 
-if command -v pnpm &> /dev/null; then
-  echo "[ok] pnpm $(pnpm --version) (already installed)"
+if command -v bun &> /dev/null; then
+  echo "[ok] bun $(bun --version) (already installed)"
 else
-  echo "Installing pnpm via corepack..."
-  if corepack enable && corepack prepare --activate 2>/dev/null; then
-    echo "[ok] pnpm $(pnpm --version)"
-  else
-    echo "  corepack failed (likely permissions), falling back to npm install..."
-    npm install -g pnpm
-    echo "[ok] pnpm $(pnpm --version)"
-  fi
+  echo "ERROR: bun is not installed."
+  echo "  Install bun: https://bun.sh"
+  exit 1
 fi
 
 # ─── Install, build, link ────────────────────────────────────────────────────
 
 echo ""
 echo "Installing dependencies..."
-pnpm install
+bun install
 
 echo ""
 echo "Cleaning stale build artifacts..."
@@ -132,7 +127,7 @@ rm -rf packages/web/.next
 
 echo ""
 echo "Building all packages..."
-pnpm build
+bun run build
 
 echo ""
 echo "Linking CLI globally..."

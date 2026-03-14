@@ -19,18 +19,17 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
           registry-url: "https://registry.npmjs.org"
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm -r --filter '!@composio/ao-web' build
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run --filter '!@composio/ao-web' build
       - uses: changesets/action@v1
         with:
-          publish: pnpm release
-          version: pnpm version-packages
+          publish: bun run release
+          version: bun run version-packages
           title: "chore: version packages"
           commit: "chore: version packages"
         env:

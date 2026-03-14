@@ -66,11 +66,11 @@ The package is not yet published to npm. Install by building from source:
 git clone https://github.com/ComposioHQ/agent-orchestrator
 cd agent-orchestrator
 
-# Install dependencies (requires pnpm)
-pnpm install
+# Install dependencies
+bun install
 
 # Build all packages
-pnpm build
+bun run build
 
 # Link CLI globally
 npm link -g packages/cli
@@ -81,10 +81,10 @@ ao --version
 
 > **Coming soon:** `npm install -g @composio/ao-cli` once published to npm.
 
-**If you don't have pnpm:**
+**If you don't have bun:**
 
 ```bash
-npm install -g pnpm
+curl -fsSL https://bun.sh/install | bash
 ```
 
 ## First-Time Configuration
@@ -412,7 +412,7 @@ git switch main
 ao update
 ```
 
-`ao update` is intentionally conservative: it requires a clean working tree on `main`, fast-forwards from `origin/main`, reinstalls dependencies, clean-rebuilds the critical core/CLI/web packages, refreshes the launcher with `npm link`, and runs CLI smoke tests. Use `ao update --skip-smoke` to stop after rebuild, or `ao update --smoke-only` to rerun just the smoke checks.
+`ao update` is intentionally conservative: it requires a clean working tree on `main`, fast-forwards from `origin/main`, runs `bun install`, clean-rebuilds the critical core/CLI/web packages, refreshes the launcher with `npm link`, and runs CLI smoke tests. Use `ao update --skip-smoke` to stop after rebuild, or `ao update --smoke-only` to rerun just the smoke checks.
 
 ### "No agent-orchestrator.yaml found"
 

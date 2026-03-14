@@ -14,21 +14,17 @@ describe("useSessionEvents", () => {
 
   beforeEach(() => {
     eventSourceInstances = [];
-    const eventSourceConstructor = vi.fn(() => {
-      const instance = {
-        onmessage: null as ((event: MessageEvent) => void) | null,
-        onerror: null as (() => void) | null,
-        close: vi.fn(),
-      };
-      eventSourceInstances.push(instance);
-      eventSourceMock = instance;
-      return instance as unknown as EventSource;
-    });
-    global.EventSource = Object.assign(eventSourceConstructor, {
-      CONNECTING: 0,
-      OPEN: 1,
-      CLOSED: 2,
-    }) as unknown as typeof EventSource;
+    class MockEventSource {
+      static CONNECTING = 0;
+      static OPEN = 1;
+      static CLOSED = 2;
+      onmessage: ((event: MessageEvent) => void) | null = null;
+      onerror: (() => void) | null = null;
+      close = vi.fn();
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      constructor(_url: string) { eventSourceInstances.push(this); eventSourceMock = this; }
+    }
+    global.EventSource = MockEventSource as unknown as typeof EventSource;
     global.fetch = vi.fn();
   });
 

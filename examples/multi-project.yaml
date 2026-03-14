@@ -24,7 +24,7 @@ projects:
     agentRules: |
       Use TypeScript strict mode.
       Follow React best practices.
-      Always run `pnpm test` before pushing.
+      Always run `bun run test` before pushing.
 
   backend:
     name: Backend API
@@ -40,7 +40,7 @@ projects:
     agentRules: |
       All endpoints require auth middleware.
       Add OpenAPI docs for new routes.
-      Run `pnpm test` and `pnpm lint` before pushing.
+      Run `bun run test` and `bun run lint` before pushing.
 
 # Slack notifications (requires SLACK_WEBHOOK_URL)
 notifiers:

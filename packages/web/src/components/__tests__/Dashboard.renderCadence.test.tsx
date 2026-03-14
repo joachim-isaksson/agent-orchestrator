@@ -23,17 +23,17 @@ describe("Dashboard render cadence", () => {
 
   beforeEach(() => {
     renderCounts.clear();
-    eventSourceMock = {
-      onmessage: null,
-      onerror: null,
-      close: vi.fn(),
-    };
-    const eventSourceConstructor = vi.fn(() => eventSourceMock as unknown as EventSource);
-    global.EventSource = Object.assign(eventSourceConstructor, {
-      CONNECTING: 0,
-      OPEN: 1,
-      CLOSED: 2,
-    }) as unknown as typeof EventSource;
+    class MockEventSource {
+      static CONNECTING = 0;
+      static OPEN = 1;
+      static CLOSED = 2;
+      onmessage: ((event: MessageEvent) => void) | null = null;
+      onerror: (() => void) | null = null;
+      close = vi.fn();
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      constructor(_url: string) { eventSourceMock = this; }
+    }
+    global.EventSource = MockEventSource as unknown as typeof EventSource;
     global.fetch = vi.fn();
   });
 
